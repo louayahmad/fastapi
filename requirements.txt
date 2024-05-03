@@ -1,0 +1,10 @@
+Install:
+1. sqlalchemy
+2. fastapi
+3. psycopg2-binary
+4. uvicorn
+
+How to run app:
+1. Open SQL shell and start the postgres server (password is postrges, keep everything else default)
+2. Open pgAdmin and find the table
+3. Use the command in the terminal: uvicorn main:app --reload
