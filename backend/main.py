@@ -1,5 +1,6 @@
-from database.database import Base, engine
-from endpoints.questions import routes as questions_routes
+from database.database import engine
+from database.models import Base
+from endpoints.users import routes as users_routes
 from fastapi import FastAPI
 
 app = FastAPI(
@@ -11,4 +12,4 @@ app = FastAPI(
 
 Base.metadata.create_all(bind=engine)
 
-app.include_router(questions_routes.router, tags=["Quiz"])
+app.include_router(users_routes.router, tags=["Users"])
