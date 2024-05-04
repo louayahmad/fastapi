@@ -1,8 +1,9 @@
 Install:
 1. sqlalchemy
 2. fastapi
-3. psycopg2-binary
+# 3. psycopg2-binary
 4. uvicorn
+5. pymsql
 
 How to run app:
 1. Open SQL shell and start the postgres server (password is postrges, keep everything else default)
