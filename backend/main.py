@@ -1,9 +1,6 @@
-from typing import Annotated
-
-from database.database import Base, SessionLocal, engine
+from database.database import Base, engine
 from endpoints.questions import routes as questions_routes
-from fastapi import Depends, FastAPI
-from sqlalchemy.orm import Session
+from fastapi import FastAPI
 
 app = FastAPI(
     title="My App",
@@ -13,16 +10,5 @@ app = FastAPI(
 )
 
 Base.metadata.create_all(bind=engine)
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-db_dependency = Annotated[Session, Depends(get_db)]
 
 app.include_router(questions_routes.router, tags=["Quiz"])

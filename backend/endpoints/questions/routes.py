@@ -1,7 +1,7 @@
+from database.database import db_dependency
 from database.models import Choices, Questions
 from endpoints.questions.models.struct import QuestionBase
 from fastapi import APIRouter
-from main import db_dependency
 
 router = APIRouter()
 
