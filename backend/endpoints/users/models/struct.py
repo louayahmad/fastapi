@@ -26,6 +26,11 @@ class GetUserResponse(BaseModel):
     email: str
 
 
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
+
 class CreateAccount(BaseModel):
     account_number: int
     balance: float
