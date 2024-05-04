@@ -33,16 +33,18 @@ class User(Base):
     id = Column(
         String(36), primary_key=True, index=True, default=lambda: str(uuid.uuid4())
     )
-    username = Column(String(255), unique=True, index=True)
-    email = Column(String(255), unique=True, index=True)
-    password = Column(String(255))
-    first_name = Column(String(255))
-    last_name = Column(String(255))
-    date_of_birth = Column(String(255))
-    ssn = Column(String(255), unique=True)
+    username = Column(String(255), unique=True, index=True, nullable=False)
+    email = Column(String(255), unique=True, index=True, nullable=False)
+    password = Column(String(255), nullable=False)
+    first_name = Column(String(255), nullable=False)
+    last_name = Column(String(255), nullable=False)
+    date_of_birth = Column(String(255), nullable=False)
+    ssn = Column(String(255), unique=True, nullable=False)
 
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, default=func.now(), nullable=False)
+    updated_at = Column(
+        DateTime, default=func.now(), onupdate=func.now(), nullable=False
+    )
 
     accounts = relationship("Account", back_populates="owner")
 
@@ -53,13 +55,15 @@ class Account(Base):
     id = Column(
         String(36), primary_key=True, index=True, default=lambda: str(uuid.uuid4())
     )
-    account_number = Column(Integer, unique=True, index=True)
-    balance = Column(Float, default=0)
-    account_type = Column(Enum(AccountType))
-    account_owner_id = Column(String(36), ForeignKey("users.id"))
+    account_number = Column(Integer, unique=True, index=True, nullable=False)
+    balance = Column(Float, default=0, nullable=False)
+    account_type = Column(Enum(AccountType), nullable=False)
+    account_owner_id = Column(String(36), ForeignKey("users.id"), nullable=False)
 
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, default=func.now(), nullable=False)
+    updated_at = Column(
+        DateTime, default=func.now(), onupdate=func.now(), nullable=False
+    )
 
     owner = relationship("User", back_populates="accounts")
     transactions = relationship("Transaction", back_populates="account")
@@ -71,11 +75,13 @@ class Transaction(Base):
     id = Column(
         String(36), primary_key=True, index=True, default=lambda: str(uuid.uuid4())
     )
-    amount = Column(Float)
-    transaction_type = Column(Enum(TransactionType))
-    account_id = Column(String(36), ForeignKey("accounts.id"))
+    amount = Column(Float, nullable=False)
+    transaction_type = Column(Enum(TransactionType), nullable=False)
+    account_id = Column(String(36), ForeignKey("accounts.id"), nullable=False)
 
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, default=func.now(), nullable=False)
+    updated_at = Column(
+        DateTime, default=func.now(), onupdate=func.now(), nullable=False
+    )
 
     account = relationship("Account", back_populates="transactions")

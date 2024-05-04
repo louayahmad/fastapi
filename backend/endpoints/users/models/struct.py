@@ -18,6 +18,14 @@ class CreateUserResponse(BaseModel):
     email: str
 
 
+class GetUserResponse(BaseModel):
+    first_name: str
+    last_name: str
+    date_of_birth: str
+    username: str
+    email: str
+
+
 class CreateAccount(BaseModel):
     account_number: int
     balance: float
