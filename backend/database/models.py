@@ -8,6 +8,7 @@ from sqlalchemy import (
     Float,
     ForeignKey,
     Integer,
+    Numeric,
     String,
     func,
 )
@@ -55,8 +56,9 @@ class Account(Base):
     id = Column(
         String(36), primary_key=True, index=True, default=lambda: str(uuid.uuid4())
     )
-    account_number = Column(Integer, unique=True, index=True, nullable=False)
-    balance = Column(Float, default=0, nullable=False)
+    account_number = Column(Integer, index=True, nullable=False)
+
+    balance = Column(Numeric(precision=18, scale=2), nullable=False)
     account_type = Column(Enum(AccountType), nullable=False)
     account_owner_id = Column(String(36), ForeignKey("users.id"), nullable=False)
 
@@ -75,7 +77,7 @@ class Transaction(Base):
     id = Column(
         String(36), primary_key=True, index=True, default=lambda: str(uuid.uuid4())
     )
-    amount = Column(Float, nullable=False)
+    amount = Column(Numeric(precision=18, scale=2), nullable=False)
     transaction_type = Column(Enum(TransactionType), nullable=False)
     account_id = Column(String(36), ForeignKey("accounts.id"), nullable=False)
 

@@ -1,9 +1,9 @@
 Install:
 1. sqlalchemy
 2. fastapi
-# 3. psycopg2-binary
 4. uvicorn
 5. pymsql
+6. bcrypt
 
 How to run app:
 1. Open SQL shell and start the server (password is root, keep everything else default)

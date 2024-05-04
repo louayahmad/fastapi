@@ -1,10 +1,15 @@
-from auth.bearer import Token, TokenData, create_access_token, get_current_user
+from auth.bearer import (
+    Token,
+    TokenData,
+    create_access_token,
+    get_current_user,
+)
+from auth.utils import hash_password, verify_password
 from database.database import db_dependency
 from database.models import User
 from endpoints.users.models.struct import (
     CreateUser,
     CreateUserResponse,
-    GetUserResponse,
     UserLogin,
 )
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -13,11 +18,11 @@ router = APIRouter()
 
 
 @router.post("/user/login")
-def user_login(user: UserLogin, db: db_dependency):
+async def user_login(user: UserLogin, db: db_dependency):
     """User Log In and Access Token Creation"""
 
     user_data: User = db.query(User).filter(User.email == user.email).first()
-    if not user_data:
+    if not user_data or not verify_password(user.password, user_data.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
@@ -25,7 +30,7 @@ def user_login(user: UserLogin, db: db_dependency):
         )
 
     token_data = TokenData(
-        user_id=str(user_data.id),
+        user_id=user_data.id,
         email=user_data.email,
         username=user_data.username,
         first_name=user_data.first_name,
@@ -47,9 +52,10 @@ async def read_users_me(current_user: TokenData = Depends(get_current_user)):
 async def create_user(user: CreateUser, db: db_dependency) -> CreateUserResponse:
     """Create a Bank Account User"""
 
+    hashed_password = hash_password(user.password)
     user = User(
         email=user.email,
-        password=user.password,
+        password=hashed_password,
         username=user.username,
         first_name=user.first_name,
         last_name=user.last_name,
@@ -66,21 +72,3 @@ async def create_user(user: CreateUser, db: db_dependency) -> CreateUserResponse
         username=user.username,
         email=user.email,
     )
-
-
-@router.get("/get_user/")
-async def get_user(id: str, db: db_dependency) -> GetUserResponse:
-    """Get user from the database"""
-
-    user: User = db.query(User).filter(User.id == id).first()
-
-    if user:
-        return GetUserResponse(
-            first_name=user.first_name,
-            last_name=user.last_name,
-            username=user.username,
-            email=user.email,
-            date_of_birth=user.date_of_birth,
-        )
-    else:
-        raise HTTPException(status_code=404, detail="User not found!")

@@ -10,11 +10,6 @@ SECRET_KEY = "some_random_secret_key"
 ACCESS_TOKEN_EXPIRE_MINUTES = 45
 
 
-class UserLogin(BaseModel):
-    email: str
-    password: str
-
-
 class Token(BaseModel):
     access_token: str
     token_type: str
