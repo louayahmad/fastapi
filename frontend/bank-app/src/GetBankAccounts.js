@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const GetBankAccounts = () => {
   const [bankAccounts, setBankAccounts] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUserBankAccounts = async () => {
@@ -36,6 +38,10 @@ const GetBankAccounts = () => {
     getUserBankAccounts();
   }, []);
 
+  const goToDepositPage = () => {
+    navigate("/");
+  };
+
   return (
     <div>
       <h2>Your Bank Accounts</h2>
@@ -57,6 +63,9 @@ const GetBankAccounts = () => {
           </li>
         ))}
       </ul>
+      <form onSubmit={goToDepositPage}>
+        <button type="submit">Deposit Funds</button>
+      </form>
     </div>
   );
 };
