@@ -4,17 +4,11 @@ FROM node:lts-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
+# Copy package.json and package-lock.json from the frontend folder
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
-
-# Copy the rest of the application code
-COPY bank-app/ .   
-
-# Build your app
-RUN npm run build
 
 # Expose the port your app runs on
 EXPOSE 3000

@@ -10,6 +10,7 @@ services:
       - NODE_ENV=DEV
     volumes:
       - ./frontend/bank-app:/app
+      - /app/node_modules
     stdin_open: true
     tty: true
 
