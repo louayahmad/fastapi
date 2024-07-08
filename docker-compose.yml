@@ -6,8 +6,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - NODE_ENV=DEV
+    env_file:
+      - ./.env
     volumes:
       - ./frontend/bank-app:/app
       - /app/node_modules
@@ -22,8 +22,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres_db:5432/banksystem
+    env_file:
+      - ./.env
     volumes:
       - ./backend:/app
     depends_on:
@@ -34,10 +34,8 @@ services:
     image: postgres:latest
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_DB=banksystem
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    env_file:
+      - ./.env
     volumes:
       - pgdata:/var/lib/postgresql/data
 
