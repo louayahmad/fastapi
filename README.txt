@@ -17,7 +17,26 @@ Make sure you have Docker and Docker Compose installed on your system.
    git clone <repository_url>
    cd <repository_name>
 
-2. Build and Run:
+2. Create .env file in main directory
+    Paste the below into a .env file
+
+    # .env
+
+    # React App
+    NODE_ENV=DEV
+
+    # FastAPI App
+    DATABASE_URL=postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}
+
+    # PostgreSQL Database
+    POSTGRES_HOST=...
+    POSTGRES_DB=...
+    POSTGRES_USER=...
+    POSTGRES_PASSWORD=...
+    POSTGRES_PORT=...
+
+
+3. Build and Run:
 
     Build and start the services using Docker Compose
 
@@ -25,17 +44,17 @@ Make sure you have Docker and Docker Compose installed on your system.
 
     This command builds the images if they do not exist and starts the services defined in docker-compose.yml.
 
-3. Access the FastAPI app:
+4. Access the FastAPI app:
 
     Once Docker Compose has started the services, you can access the FastAPI application at:
 
     http://localhost:8000/swagger
 
-4. Access the React Application
+5. Access the React Application
 
     http://localhost:3000
 
-5. Connect to the postgres database using Dbeaver
+6. Connect to the postgres database using Dbeaver
 
 
 
