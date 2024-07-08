@@ -5,7 +5,6 @@ from sqlalchemy import (
     Column,
     DateTime,
     Enum,
-    Float,
     ForeignKey,
     Integer,
     Numeric,
@@ -59,7 +58,9 @@ class Account(Base):
     account_number = Column(Integer, index=True, nullable=False)
 
     balance = Column(Numeric(precision=18, scale=2), nullable=False)
-    account_type = Column(Enum(AccountType), nullable=False)
+    account_type = Column(
+        Enum(AccountType), nullable=False
+    )  # Use Enum with AccountType
     account_owner_id = Column(String(36), ForeignKey("users.id"), nullable=False)
 
     created_at = Column(DateTime, default=func.now(), nullable=False)
@@ -78,7 +79,9 @@ class Transaction(Base):
         String(36), primary_key=True, index=True, default=lambda: str(uuid.uuid4())
     )
     amount = Column(Numeric(precision=18, scale=2), nullable=False)
-    transaction_type = Column(Enum(TransactionType), nullable=False)
+    transaction_type = Column(
+        Enum(TransactionType), nullable=False
+    )  # Use Enum with TransactionType
     account_id = Column(String(36), ForeignKey("accounts.id"), nullable=False)
 
     created_at = Column(DateTime, default=func.now(), nullable=False)

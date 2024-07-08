@@ -22,9 +22,9 @@ class TokenData(BaseModel):
     date_of_birth: str
     username: str
     email: str
-    exp: int | None = None
-    token_exiration_date: str | None = None
-    location: str | None = "US"
+    exp: Optional[int] = None
+    token_expiration_date: Optional[str] = None
+    location: str = "US"
 
 
 bearer = HTTPBearer()
@@ -64,9 +64,11 @@ async def get_current_user(
         first_name=decoded_token["first_name"],
         last_name=decoded_token["last_name"],
         date_of_birth=decoded_token["date_of_birth"],
-        exp=decoded_token["exp"],
-        token_exiration_date=decoded_token["token_expiration_date"],
-        location=decoded_token["location"],
+        exp=decoded_token.get("exp"),  # Using .get() to safely retrieve optional keys
+        token_expiration_date=decoded_token.get("token_expiration_date"),
+        location=decoded_token.get(
+            "location", "US"
+        ),  # Providing a default value for location
     )
 
 
